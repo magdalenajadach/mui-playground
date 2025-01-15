@@ -1,4 +1,3 @@
-import * as React from 'react';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
@@ -11,11 +10,17 @@ import { useState } from 'react'
 import AppleIcon from '@mui/icons-material/Apple'; 
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 
+type Phone = {
+  id: string;
+  name: string;
+  data?: {
+    Description?: string;
+  };
+};
+
 export default function FolderList() {
 
-
-
-  const [phones, setPhone] = useState([])
+  const [phones, setPhone] = useState<Phone[]>([]);
 
   useEffect(() => {
     fetch('https://api.restful-api.dev/objects')
@@ -35,17 +40,17 @@ export default function FolderList() {
   return (
     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
       {phones.map((phone) => (
-        <ListItem>
+        <ListItem key={phone.id}>
           <ListItemAvatar>
               <Avatar>
                 {(phone.name.toLowerCase().includes('apple')) ? <AppleIcon/> : <PhoneAndroidIcon />}
               </Avatar>
             </ListItemAvatar>
-          <ListItemText key={phone.id} primary={phone.name} secondary={phone.data?.Description}/>
+          <ListItemText  primary={phone.name} secondary={phone.data?.Description}/>
         </ListItem>
       ))}
-    </List>)
-
+    </List>
+    )
 }
 
 
